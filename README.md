@@ -1,34 +1,34 @@
 # SExtractor
- 从GalGame脚本提取和导入文本（大部分需要明文）
- 
-## Python依赖模块：
-python版本需要3.9及以上。（推荐使用3.11）
+Extract and import text from GalGame scripts (most require plaintext)
+
+## Python Dependencies:
+Python version 3.9 or higher required (Python 3.11 recommended)
 * pyqt5
 * colorama
 * pandas
 * python-rapidjson
 
-## 详细使用教程
+## Detailed Usage Tutorials
 * [julixian](https://www.ai2.moe/topic/28969-sextractor%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97)
 * [无聊荒芜](https://www.ai2.moe/topic/29048-sextractor%E4%BD%BF%E7%94%A8%E2%80%94%E2%80%94%E8%BF%9B%E9%98%B6%E8%AF%B4%E6%98%8E%E5%8A%A0%E9%83%A8%E5%88%86%E5%BC%95%E6%93%8E%E7%A4%BA%E4%BE%8B%EF%BC%88%E7%9C%8B%E5%AE%8Csextractor%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97%E5%86%8D%E6%9D%A5%EF%BC%89)
 
-## 支持的引擎：
-同引擎不同游戏的格式也可能不同，请参看程序内示例使用。
-* TXT纯文本 (正则匹配。可选utf-8，utf-8-sig，utf-16(LE BOM))
-* BIN二进制文本 (正则匹配。默认读shift-jis写GBK)
-* JSON文本 (正则匹配，只搜索value，value为空则先自动复制key到value)
+## Supported Engines:
+Different games of the same engine may have different formats. Please refer to the examples within the program.
+* TXT plaintext (regex matching. Optional utf-8, utf-8-sig, utf-16(LE BOM))
+* BIN binary text (regex matching. Default reads shift-jis, writes GBK)
+* JSON text (regex matching, only searches values, if value is empty, automatically copies key to value)
 * ANIM
 * AZ System (Encrypt Isaac)
 * Artemis
 * Black Rainbow
 * CSV
-* CScript (有预编译模块，推荐使用python 3.11)
+* CScript (has precompiled modules, Python 3.11 recommended)
 * Cyberworks / CSystem
 * EAGLS
 * FVP
 * Kaguya
 * Krkr
-* MED (DxLib改)
+* MED (DxLib modified)
 * MoonHir
 * NekoSDK
 * RPG Maker MV
@@ -39,22 +39,22 @@ python版本需要3.9及以上。（推荐使用3.11）
 * WillPlus
 * Yu-ris
 
-## 其他功能
-* 可以导出VNT的JIS隧道文件`sjis_ext.bin`，需要配合[VNTProxy](#相关项目)使用。(同时也会导出UIF配置)
-* 可以导出UIF的JIS替换配置`uif_config.json`，需要配合[UniversalInjectorFramework](#相关项目)使用。
-* `Tools/Font`下有JIS替换字体，以备dll无法hook游戏时使用。
-* 文件夹下自定义的`config*.ini`都会被读取，*中不能以数字开头。(例：`configTest.ini`)
-* `text_conf.json`进行文本处理配置，优先读取工作目录ctrl文件下配置，如果没有则读取工具根目录默认配置。
+## Other Features
+* Can export VNT's JIS tunnel file `sjis_ext.bin`, requires use with [VNTProxy](#related-projects). (Also exports UIF configuration)
+* Can export UIF's JIS replacement configuration `uif_config.json`, requires use with [UniversalInjectorFramework](#related-projects).
+* JIS replacement fonts are available under `Tools/Font` for use when dll cannot hook the game.
+* All custom `config*.ini` files in the folder will be read, where * cannot start with a number. (Example: `configTest.ini`)
+* `text_conf.json` configures text processing. Priority reads configuration from ctrl files in working directory; if none exists, reads default configuration from tool root directory.
 ```
 text_conf.json:
-  "replace_before_split" 分割前替换
-  "trans_replace" 译文替换，受导入编码限制
-  "orig_replace" 原文替换与还原
-  "name_replace" 仅限name的原文替换与还原
+  "replace_before_split" - Replace before splitting
+  "trans_replace" - Translation replacement, limited by import encoding
+  "orig_replace" - Original text replacement and restoration
+  "name_replace" - Original text replacement and restoration for names only
 ```
 
-## 当前正则预设
-<font color=red>（更多预设正则详见根目录`预设正则.fake.ini`）</font>
+## Current Regex Presets
+<font color=red>(More preset regex patterns can be found in root directory `预设正则.fake.ini`)</font>
 * AST
 * Artemis
 * Cyberworks_JIS
@@ -62,55 +62,55 @@ text_conf.json:
 * EntisGLS
 * Krkr
 * Nexas
-* RealLive (选项分开提取)
+* RealLive (extract options separately)
 * RPGMV_System
 * RPGVX_NotMap
 * SFA_AOS
 * Valkyria_dat_txt
 * Valkyria_ODN
-* Yuris_txt (非ybn)
-* BIN暴力匹配
-* 两行TXT
-* 导出所有(多用于格式转换)
-* 自定义规则(自动保存)
-* None还原为引擎默认
+* Yuris_txt (non-ybn)
+* BIN brute force matching
+* Two-line TXT
+* Export all (mostly for format conversion)
+* Custom rules (auto-save)
+* None (restore to engine default)
 
-## 工具
-* AST: arc2封包
-* Astronauts: gpx封包，Mwb提取
-* AZ System: isaac加密
-* BlackRainbow: 封包
-* CScript: 封包，解压压缩
-* Cyberworks: UTF-16解封包
-* DxLib: 解包
-* EAGLS: 解封包
-* Font: JIS替换字典生成的字体
-* Malie: 封包
-* RealLive: 解封包，二次加解密
-* SHook: 跳壳，Loader
-* Silky: 封Azurite包
-* Unity: data.dsm加解密
+## Tools
+* AST: arc2 packaging
+* Astronauts: gpx packaging, Mwb extraction
+* AZ System: isaac encryption
+* BlackRainbow: packaging
+* CScript: packaging, compression/decompression
+* Cyberworks: UTF-16 unpackaging
+* DxLib: unpacking
+* EAGLS: unpackaging
+* Font: Fonts generated from JIS replacement dictionary
+* Malie: packaging
+* RealLive: unpackaging, secondary encryption/decryption
+* SHook: shell jumping, Loader
+* Silky: Azurite packaging
+* Unity: data.dsm encryption/decryption
 * UniversalInjectorFramework: dll
 
-## 正则相关说明
-读取文件方式分为`txt`和`bin`两大类，前者按字符串处理，后者按字节处理。
-* `separate=reg` bin方式下的分割符，默认为`separate=\r\n`，导入时会补上separate字符串`\r\n`；如果带捕获分组例如`separate=([\x01-\x02]\x00|\x00)`，则会提取出分割符。
-* `startline=0` 每个文件起始处理行数；默认为0。
-* `structure=paragraph` 提取结构，当为`paragraph`时才会处理非name或msg的分组名，比如`unfinish`。（不是所有引擎的正则都支持，`TXT`和`BIN`引擎肯定支持）
-* `extraData=data` data为引擎自定义的参数，具体参考每个引擎的默认正则，用法不定。
-* `ignoreDecodeError=1` bin方式下，忽略文本在提取时的decode编码错误。
-* `checkJIS=reg` bin方式下，检查字节是否符合shift-jis编码，默认只允许双字节，`reg`为支持的单字节。比如`checkJIS=[\n]`表示支持换行符。
-* `postSkip=reg` 在提取中，对于已经提取到的文本进行`re.search(reg, text)`匹配，如果匹配正则成功则忽略掉该文本，不导出。比如`postSkip=^[0-9]`表示忽略数字开头的文本。
-* `sepStr=reg` 仅Krkr_Reg引擎使用，表示分割符匹配；默认为`sepStr=[^\[\]]+`，表示以中括号分割。
-* `endStr=reg` 仅Krkr_Reg引擎使用，表示段落结束的匹配。
-* `ctrlStr=reg` 仅Krkr_Reg引擎使用，表示需要跳过的控制段的匹配。（类似通用的postSkip）
-* `version=0` 主要由Yuris使用，表示文件结构版本
-* `decrypt=auto` 主要由Yuris使用，表示解密。auto表示自动猜测，也可以强制指定，如`decrypt=\xD3\x6F\xAC\x96`。如果已解密则删除该行。
-* `pureText=1` 等同于勾选`BIN启用纯文本正则模式`
-* `writeOffset=1` 主要由CSV使用，向右偏移写入列。
+## Regex-Related Instructions
+File reading methods are divided into two main categories: `txt` and `bin`. The former processes as strings, the latter as bytes.
+* `separate=reg` - Separator in bin mode, default is `separate=\r\n`. During import, the separate string `\r\n` will be added; if it contains capture groups like `separate=([\x01-\x02]\x00|\x00)`, the separator will be extracted.
+* `startline=0` - Starting line number for each file processing; default is 0.
+* `structure=paragraph` - Extraction structure. When set to `paragraph`, it processes group names other than name or msg, such as `unfinish`. (Not all engine regex support this; `TXT` and `BIN` engines definitely support it)
+* `extraData=data` - Custom parameters for engines, refer to each engine's default regex for specific usage.
+* `ignoreDecodeError=1` - In bin mode, ignore decode encoding errors during text extraction.
+* `checkJIS=reg` - In bin mode, check if bytes conform to shift-jis encoding. Default allows only double-byte characters; `reg` specifies supported single-byte characters. For example, `checkJIS=[\n]` allows newline characters.
+* `postSkip=reg` - During extraction, perform `re.search(reg, text)` matching on extracted text. If regex matches successfully, ignore that text and don't export it. For example, `postSkip=^[0-9]` ignores text starting with numbers.
+* `sepStr=reg` - Used only by Krkr_Reg engine, indicates separator matching; default is `sepStr=[^\[\]]+`, meaning split by square brackets.
+* `endStr=reg` - Used only by Krkr_Reg engine, indicates paragraph end matching.
+* `ctrlStr=reg` - Used only by Krkr_Reg engine, indicates control segments to skip. (Similar to general postSkip)
+* `version=0` - Mainly used by Yuris, indicates file structure version
+* `decrypt=auto` - Mainly used by Yuris, indicates decryption. Auto means automatic detection; can be forced, e.g., `decrypt=\xD3\x6F\xAC\x96`. Delete this line if already decrypted.
+* `pureText=1` - Equivalent to checking `Enable pure text regex mode for BIN`
+* `writeOffset=1` - Mainly used by CSV, offset write column to the right.
 
-### 正则例子
-对于每行文本都会从上到下进行匹配。（skip或search匹配成功都会中断，不进行下边的正则匹配）
+### Regex Examples
+Each line of text is matched from top to bottom. (Both skip and search successful matches will interrupt and not perform subsequent regex matching)
 ```
 00_skip=^error
 10_search=^(?P<name>Name.*)$
@@ -121,16 +121,16 @@ text_conf.json:
 postSkip=^[0-9]
 structure=paragraph
 ```
-* 00 跳过`error`开头的行，skip会打断段落结构（如果用postSkip处理error则不会）
-* 10 提取`Name`开头的行，且指定自身为`name`（`name`默认会`predel_unfinish`）
-* 20 提取带`「」`的一行，且指定前一行为`name`
-* 21 提取`「`开头的一行，且指定前一行为`name`，且自身为`unfinish`
-* 25 提取`」`结尾的一行
-* 26 提取任意字符的一行（.不包含换行符）
-* postSkip 数字开头则跳过，不会打断段落结构
-* 最后顺序合并文本，如果是`unfinish`则添加\r\n且不会切换到下一个message。
-* 分组名`pre_`和`predel_`后可以自由组合，比如`name`和`unfinish`。`AND`也可以有任意个。
-* 原始txt:
+* 00 Skip lines starting with `error`. Skip interrupts paragraph structure (using postSkip to handle error wouldn't interrupt)
+* 10 Extract lines starting with `Name` and specify itself as `name` (`name` defaults to `predel_unfinish`)
+* 20 Extract lines with `「」` and specify previous line as `name`
+* 21 Extract lines starting with `「` and specify previous line as `name`, itself as `unfinish`
+* 25 Extract lines ending with `」`
+* 26 Extract lines with any characters (. doesn't include newlines)
+* postSkip Skip if starting with numbers, doesn't interrupt paragraph structure
+* Finally merge text in order. If it's `unfinish`, add \r\n and don't switch to next message.
+* Group names `pre_` and `predel_` can be freely combined with `name` and `unfinish`. `AND` can also have any number.
+* Original txt:
 ```
 Text0
 Name1
@@ -145,7 +145,7 @@ Text333
 error
 」
 ```
-* 提取为：
+* Extracted as:
 ```
 [
   {
@@ -169,17 +169,17 @@ error
 ]
 ```
 
-## 支持的导出格式：
-* json字典 { 文本 : "" }
-* json字典 { 文本 : 文本 }
-* json列表 [ { name : 名字, message : 带换行对话 } ]
-* json字典 { 带换行文本 : "" }
-* json字典 { 带换行文本 : 带换行文本 }
-* txt文档  { 文本 }
-* txt文档  [ 带换行文本 ]
-* json列表 [ 带换行文本 ]
+## Supported Export Formats:
+* json dictionary { text : "" }
+* json dictionary { text : text }
+* json list [ { name : name, message : dialogue with line breaks } ]
+* json dictionary { text with line breaks : "" }
+* json dictionary { text with line breaks : text with line breaks }
+* txt document { text }
+* txt document [ text with line breaks ]
+* json list [ text with line breaks ]
 
-## 相关项目
+## Related Projects
 1. [game_translation](https://github.com/ssynn/game_translation)
 2. [SiglusTools](https://github.com/yanhua0518/GALgameScriptTools)
 3. [CSystemTools](https://github.com/arcusmaximus/CSystemTools)
@@ -189,5 +189,3 @@ error
 7. [EAGLS](https://github.com/jszhtian/EAGLS)
 8. [MalieTools](https://github.com/Dir-A/MalieTools)
 9. [Garbro fork](https://github.com/satan53x/GARbro)
-
-
